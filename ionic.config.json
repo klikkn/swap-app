@@ -1,0 +1,7 @@
+{
+  "name": "swiper-app-ionic",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "react-vite"
+}
