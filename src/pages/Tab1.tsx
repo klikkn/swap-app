@@ -1,8 +1,52 @@
 import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar } from '@ionic/react';
-import ExploreContainer from '../components/ExploreContainer';
+import { useEffect, useState } from 'react';
+import { Swiper, SwiperSlide } from 'swiper/react';
+import 'swiper/css';
+
 import './Tab1.css';
 
 const Tab1: React.FC = () => {
+  const [recipesList, setRecipesList] = useState<any>(null);
+  const [recipesListError, setRecipesListError] = useState<any>(null);
+  const [recipesListLoading, setRecipesListLoading] = useState<any>(false);
+
+  const currentLimit = 3
+  const [currentSkip, setCurrentSkip] = useState(0)
+
+  useEffect(() => {
+    setRecipesListLoading(true);
+
+    fetch(`https://dummyjson.com/recipes?limit=${currentLimit}&skip=${currentSkip}&select=name,image,ingredients,instructions`)
+      .then(res => res.json())
+      .then(({ recipes, skip }) => {
+        setCurrentSkip(skip)
+        setRecipesList(recipes)
+      })
+      .catch(error => {
+        setRecipesListError('Error')
+      })
+      .finally(() => {
+        setRecipesListLoading(false)
+      })
+  }, [])
+
+  const loadMore = () => {
+    setRecipesListLoading(true);
+
+    fetch(`https://dummyjson.com/recipes?limit=${currentLimit}&skip=${currentSkip + currentLimit}&select=name,image,ingredients,instructions`)
+      .then(res => res.json())
+      .then(({ recipes, skip }) => {
+        setCurrentSkip(skip)
+        setRecipesList([...recipesList, ...recipes])
+      })
+      .catch(error => {
+        setRecipesListError('Error')
+      })
+      .finally(() => {
+        setRecipesListLoading(false)
+      })
+  }
+
   return (
     <IonPage>
       <IonHeader>
@@ -10,15 +54,65 @@ const Tab1: React.FC = () => {
           <IonTitle>Tab 1</IonTitle>
         </IonToolbar>
       </IonHeader>
-      <IonContent fullscreen>
-        <IonHeader collapse="condense">
-          <IonToolbar>
-            <IonTitle size="large">Tab 1</IonTitle>
-          </IonToolbar>
-        </IonHeader>
-        <ExploreContainer name="Tab 1 page" />
+      <IonContent className='feed-content'>
+        <>
+          {recipesListLoading &&
+            <div>
+              Loading...
+            </div>}
+
+          {recipesListError &&
+            <div>
+              Error
+            </div>}
+
+          {recipesList !== null && <Swiper
+            className='item-slider'
+            direction='vertical'
+            spaceBetween={0}
+            slidesPerView={1}
+            onSlideChange={({ isEnd }: any) => {
+              if (isEnd) {
+                loadMore()
+              }
+            }}
+          >
+            {recipesList.map(({ id, image, name, ingredients, instructions }: any) => (
+              <SwiperSlide key={id} className="item-slide">
+
+                <div className="item-content" style={{ backgroundImage: `url(${image})`, backgroundSize: 'cover' }}>
+                  <div className='text-content'>
+                    {name}
+                  </div>
+
+                  <Swiper
+                    className="item-content-slider"
+                    direction='horizontal'
+                    spaceBetween={0}
+                    slidesPerView={1}
+                  >
+                    <SwiperSlide className="item-content-slide">
+                      <div className='text-content'>
+                        <ul>
+                          {ingredients.map((ingredient: any) => (<li>{ingredient}</li>))}
+                        </ul>
+                      </div>
+                    </SwiperSlide>
+                    <SwiperSlide className="item-content-slide">
+                      <div className='text-content'>
+                        <ul>
+                          {instructions.map((instruction: any) => (<li>{instruction}</li>))}
+                        </ul>
+                      </div>
+                    </SwiperSlide>
+                  </Swiper>
+                </div>
+              </SwiperSlide>
+            ))}
+          </Swiper>}
+        </>
       </IonContent>
-    </IonPage>
+    </IonPage >
   );
 };
 
