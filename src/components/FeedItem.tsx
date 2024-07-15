@@ -5,7 +5,7 @@ import './FeedItem.css';
 
 import FeedContent from './FeedContent';
 
-const FeedItem: React.FC = ({ item: { image, name, ingredients, instructions } }: any) => {
+const FeedItem: React.FC<any> = ({ item: { image, name, ingredients, instructions } }) => {
   const flags = useFlags(['feed_image_visible', 'feed_content_visible']);
 
   return (

@@ -5,7 +5,7 @@ import './Feed.css';
 
 import FeedItem from './FeedItem';
 
-const Feed: React.FC = ({ items, onLoadMore }: any) => {
+const Feed: React.FC<any> = ({ items, onLoadMore }) => {
   return (
     <Swiper
       className='item-slider'

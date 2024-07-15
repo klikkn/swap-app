@@ -3,7 +3,7 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 
 import './FeedContent.css';
 
-const FeedContent: React.FC = ({ ingredients, instructions }: any) => {
+const FeedContent: React.FC<any> = ({ ingredients, instructions }) => {
   return (
       <Swiper
         className="item-content-slider"
