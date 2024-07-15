@@ -1,8 +1,6 @@
 
 import { useFlags } from 'flagsmith/react';
 
-import { SwiperSlide } from 'swiper/react';
-
 import './FeedItem.css';
 
 import FeedContent from './FeedContent';
