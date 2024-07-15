@@ -1,5 +1,5 @@
 import { useFlags } from 'flagsmith/react';
-import { IonContent, IonPage} from '@ionic/react';
+import { IonContent, IonPage } from '@ionic/react';
 import { useEffect, useState } from 'react';
 import 'swiper/css';
 
@@ -34,6 +34,7 @@ const Tab2: React.FC = () => {
   }, [])
 
   const loadMore = () => {
+
     setRecipesListLoading(true);
 
     fetch(`https://dummyjson.com/recipes?limit=${currentLimit}&skip=${currentSkip + currentLimit}&select=name,image,ingredients,instructions`)
@@ -64,7 +65,16 @@ const Tab2: React.FC = () => {
               Error
             </div>}
 
-          {recipesList !== null && <Feed items={recipesList} onLoadMore={loadMore} />}
+          {recipesList !== null &&
+            <Feed
+              items={recipesList}
+              onLoadMore={({ isEnd }: any) => {
+                if (isEnd) {
+                  loadMore()
+                }
+              }}
+            />
+          }
         </>
       </IonContent>
     </IonPage >
