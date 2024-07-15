@@ -1,9 +1,11 @@
 
 import { useFlags } from 'flagsmith/react';
 
+import { lazy } from 'react';
+
 import './FeedItem.css';
 
-import FeedContent from './FeedContent';
+const FeedContent = lazy(() => import('./FeedContent'));
 
 const FeedItem: React.FC<any> = ({ item: { image, name, ingredients, instructions } }) => {
   const flags = useFlags(['feed_image_visible', 'feed_content_visible']);
