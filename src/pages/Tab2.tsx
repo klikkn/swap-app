@@ -7,7 +7,7 @@ import 'swiper/css';
 import './Tab2.css';
 
 const Tab2: React.FC = () => {
-  const flags = useFlags(['feed_image_visible']);
+  const flags = useFlags(['feed_image_visible', 'feed_content_visible']);
 
   const [recipesList, setRecipesList] = useState<any>(null);
   const [recipesListError, setRecipesListError] = useState<any>(null);
@@ -86,27 +86,29 @@ const Tab2: React.FC = () => {
                     {name}
                   </div>
 
-                  <Swiper
-                    className="item-content-slider"
-                    direction='horizontal'
-                    spaceBetween={0}
-                    slidesPerView={1}
-                  >
-                    <SwiperSlide className="item-content-slide">
-                      <div className='text-content'>
-                        <ul>
-                          {ingredients.map((ingredient: any) => (<li key={ingredient}>{ingredient}</li>))}
-                        </ul>
-                      </div>
-                    </SwiperSlide>
-                    <SwiperSlide className="item-content-slide">
-                      <div className='text-content'>
-                        <ul>
-                          {instructions.map((instruction: any) => (<li key={instruction}>{instruction}</li>))}
-                        </ul>
-                      </div>
-                    </SwiperSlide>
-                  </Swiper>
+                  {flags.feed_content_visible.enabled &&
+                    <Swiper
+                      className="item-content-slider"
+                      direction='horizontal'
+                      spaceBetween={0}
+                      slidesPerView={1}
+                    >
+                      <SwiperSlide className="item-content-slide">
+                        <div className='text-content'>
+                          <ul>
+                            {ingredients.map((ingredient: any) => (<li key={ingredient}>{ingredient}</li>))}
+                          </ul>
+                        </div>
+                      </SwiperSlide>
+                      <SwiperSlide className="item-content-slide">
+                        <div className='text-content'>
+                          <ul>
+                            {instructions.map((instruction: any) => (<li key={instruction}>{instruction}</li>))}
+                          </ul>
+                        </div>
+                      </SwiperSlide>
+                    </Swiper>
+                  }
                 </div>
               </SwiperSlide>
             ))}
