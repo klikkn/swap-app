@@ -1,4 +1,4 @@
-
+import { useFlags } from 'flagsmith/react';
 import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar } from '@ionic/react';
 import { useEffect, useState } from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
@@ -7,6 +7,8 @@ import 'swiper/css';
 import './Tab2.css';
 
 const Tab2: React.FC = () => {
+  const flags = useFlags(['feed_image_visible']);
+
   const [recipesList, setRecipesList] = useState<any>(null);
   const [recipesListError, setRecipesListError] = useState<any>(null);
   const [recipesListLoading, setRecipesListLoading] = useState<any>(false);
@@ -76,7 +78,10 @@ const Tab2: React.FC = () => {
             {recipesList.map(({ id, image, name, ingredients, instructions }: any) => (
               <SwiperSlide key={id} className="item-slide">
 
-                <div className="item-content" style={{ backgroundImage: `url(${image})`, backgroundSize: 'cover' }}>
+                <div
+                  className="item-content"
+                  style={{ backgroundImage: flags.feed_image_visible.enabled ? `url(${image})` : ``, backgroundSize: 'cover' }}
+                >
                   <div className='text-content'>
                     {name}
                   </div>
