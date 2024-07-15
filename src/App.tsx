@@ -57,7 +57,7 @@ const App: React.FC = () => {
   return (
     <FlagsmithProvider
       options={{
-        environmentID: "ihs4CwsfLiXR9VUDaDvDzu",
+        environmentID: import.meta.env.VITE_FLAGSMITH_ENVIRONEMNT_ID ?? '',
         cacheFlags: false
       }}
       flagsmith={flagsmith}
