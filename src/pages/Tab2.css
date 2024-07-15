@@ -33,12 +33,3 @@
   background: rgba(0, 0, 0, .5);
   color: rgb(255, 255, 255)
 }
-
-/* .swiper-slide {
-  -webkit-backface-visibility: hidden !important;
-  -webkit-transform: translate3d(0, 0, 0) !important;
-}
-
-.swiper-wrapper {
-  -webkit-transform-style: preserve-3d !important;
-} */
